@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jingli Lin</title>
+  <meta name="description" content="Jingli Lin - Ph.D. student in Artificial Intelligence at Shanghai Jiao Tong University. Research interests include Embodied AI, 3D Vision, Spatial Reasoning, and World Models." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Newsreader:opsz,wght@6..72,500;6..72,600;6..72,700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #eef1f7;
+      --card: rgba(246, 248, 252, 0.88);
+      --card-tint: rgba(238, 242, 255, 0.82);
+      --text: #151a27;
+      --muted: #5e6878;
+      --line: #dbe2ee;
+      --primary: #3246d3;
+      --primary-soft: #e8ecff;
+      --accent: #b56b39;
+      --accent-soft: #fff0e3;
+      --deep: #101827;
+      --shadow: 0 24px 70px rgba(26, 35, 55, 0.13);
+      --radius: 28px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 12% 6%, rgba(50, 70, 211, 0.22), transparent 30%),
+        radial-gradient(circle at 88% 8%, rgba(181, 107, 57, 0.20), transparent 28%),
+        linear-gradient(135deg, #f4efe9 0%, #e7edf8 42%, #edf2f8 70%, #f7efe8 100%);
+      line-height: 1.7;
+    }
+
+    a { color: inherit; text-decoration: none; transition: 0.2s ease; }
+    a:hover { color: var(--primary); }
+
+    .container { width: min(1160px, calc(100% - 40px)); margin: 0 auto; }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(18px);
+      background: rgba(238, 241, 247, 0.82);
+      border-bottom: 1px solid rgba(232, 225, 216, 0.85);
+    }
+
+    nav {
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      font-family: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      font-size: 1.22rem;
+    }
+
+    .nav-links { display: flex; gap: 20px; align-items: center; font-size: 0.92rem; color: var(--muted); font-weight: 700; }
+
+    .hero {
+      padding: 42px 48px;
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      gap: 46px;
+      align-items: center;
+    }
+
+    .hero-panel {
+      margin-top: 36px;
+      border-radius: 26px;
+      background: linear-gradient(135deg, #1d2433 0%, #2a3448 100%);
+      color: #ffffff;
+      box-shadow: 0 16px 42px rgba(26, 35, 55, 0.14);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .hero-panel::after {
+      display: none;
+    }
+
+    .portrait-wrap {
+      position: relative;
+      width: 220px;
+      height: 220px;
+    }
+
+    .portrait-bg {
+      position: absolute;
+      inset: 10px -10px -10px 10px;
+      border-radius: 34px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .portrait {
+      position: relative;
+      width: 220px;
+      height: 220px;
+      border-radius: 34px;
+      object-fit: cover;
+      background: #dfe5ef;
+      border: 5px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 12px 28px rgba(0,0,0,0.12);
+      display: block;
+    }
+
+    .portrait-fallback {
+      position: relative;
+      width: 220px;
+      height: 220px;
+      border-radius: 46px;
+      background: linear-gradient(135deg, #e9ecff, #fff0df);
+      border: 8px solid rgba(255, 255, 255, 0.9);
+      box-shadow: var(--shadow);
+      display: none;
+      place-items: center;
+      font-family: "Newsreader", serif;
+      font-size: 4rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.78);
+      font-weight: 700;
+      font-size: 0.8rem;
+      margin-bottom: 18px;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    h1 {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      margin: 0;
+      font-size: clamp(2.8rem, 5vw, 4.6rem);
+      line-height: 1.02;
+      letter-spacing: -0.035em;
+      font-weight: 700;
+    }
+
+    .subtitle {
+      margin: 24px 0 0;
+      font-size: clamp(1.04rem, 1.7vw, 1.24rem);
+      color: rgba(255, 255, 255, 0.78);
+      max-width: 800px;
+    }
+
+    .highlight { color: #ffd9a8; font-weight: 800; }
+
+    .hero-actions { margin-top: 28px; display: flex; gap: 12px; flex-wrap: wrap; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 11px 16px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.84);
+      font-weight: 800;
+      font-size: 0.92rem;
+      box-shadow: 0 10px 28px rgba(17, 24, 39, 0.06);
+    }
+
+    .btn.primary { background: #ffffff; color: var(--deep); border-color: #ffffff; }
+    .hero .btn:not(.primary) { background: rgba(255, 255, 255, 0.12); color: #fff; border-color: rgba(255, 255, 255, 0.22); }
+    .hero .btn:not(.primary):hover { background: rgba(255, 255, 255, 0.2); color: #fff; }
+
+    section { padding: 38px 0; }
+
+    .section-title { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; margin-bottom: 18px; }
+
+    .section-title h2 {
+      font-family: "Newsreader", Georgia, serif;
+      margin: 0;
+      font-size: 2.15rem;
+      letter-spacing: -0.055em;
+    }
+
+    .section-title span { color: var(--muted); font-size: 0.94rem; font-weight: 600; }
+
+    .grid { display: grid; gap: 18px; }
+    .two-col { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+    .card {
+      background: linear-gradient(180deg, var(--card), rgba(238, 242, 255, 0.66));
+      border: 1px solid rgba(232, 225, 216, 0.95);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: 0 14px 34px rgba(30, 36, 50, 0.065);
+      backdrop-filter: blur(14px);
+    }
+
+    .bio-card p { margin: 0; color: #3f4654; }
+
+    .logo-card {
+      display: grid;
+      grid-template-columns: 62px 1fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .logo {
+      width: 62px;
+      height: 62px;
+      border-radius: 18px;
+      object-fit: contain;
+      background: #fff;
+      border: 1px solid var(--line);
+      padding: 8px;
+      box-shadow: 0 8px 20px rgba(30, 36, 50, 0.06);
+    }
+
+    .logo-fallback {
+      width: 62px;
+      height: 62px;
+      border-radius: 18px;
+      display: grid;
+      place-items: center;
+      background: var(--primary-soft);
+      color: var(--primary);
+      font-weight: 900;
+      border: 1px solid var(--line);
+    }
+
+    .item-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 8px; }
+    .item-head h3 { margin: 0; font-size: 1.12rem; letter-spacing: -0.025em; }
+
+    .date {
+      color: var(--primary);
+      background: var(--primary-soft);
+      padding: 5px 10px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .role { color: var(--muted); font-weight: 700; margin-bottom: 10px; }
+    ul { margin: 10px 0 0; padding-left: 20px; color: var(--muted); }
+
+    .tags { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+
+    .tag {
+      padding: 10px 13px;
+      border-radius: 999px;
+      background: #fff;
+      border: 1px solid var(--line);
+      color: var(--text);
+      font-weight: 800;
+      font-size: 0.9rem;
+    }
+
+    .pub-list { display: grid; gap: 18px; counter-reset: pubs; }
+
+    .pub {
+      position: relative;
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      gap: 22px;
+      padding: 18px;
+      background: linear-gradient(180deg, rgba(246, 248, 252, 0.92), rgba(232, 236, 248, 0.74));
+      border: 1px solid rgba(232, 225, 216, 0.95);
+      border-radius: 24px;
+      box-shadow: 0 14px 34px rgba(30, 36, 50, 0.06);
+      backdrop-filter: blur(14px);
+    }
+
+    .teaser {
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      border-radius: 18px;
+      object-fit: cover;
+      background:
+        linear-gradient(135deg, rgba(67, 85, 246, 0.12), rgba(217, 135, 65, 0.14)),
+        #fff;
+      border: 1px solid var(--line);
+    }
+
+    .teaser-fallback {
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      border-radius: 18px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 18px;
+      color: var(--primary);
+      background: linear-gradient(135deg, var(--primary-soft), var(--accent-soft));
+      border: 1px solid var(--line);
+      font-weight: 900;
+      letter-spacing: -0.02em;
+    }
+
+    .pub-content { position: relative; padding-left: 42px; }
+
+    .pub-content::before {
+      counter-increment: pubs;
+      content: counter(pubs);
+      position: absolute;
+      left: 0;
+      top: 2px;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--primary-soft);
+      color: var(--primary);
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      font-size: 0.82rem;
+    }
+    .award-card {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 18px;
+      padding: 18px 22px;
+      margin-bottom: 14px;
+      border-radius: 16px;
+      background: rgba(248, 250, 252, 0.86);
+      border: 1px solid rgba(148, 163, 184, 0.22);
+    }
+
+    .award-year {
+      font-size: 14px;
+      font-weight: 700;
+      color: #475569;
+    }
+
+    .award-card h3 {
+      margin: 0;
+      font-size: 17px;
+      font-weight: 650;
+      color: #0f172a;
+    }
+
+    .award-card p {
+      margin: 5px 0 0;
+      font-size: 14px;
+      color: #64748b;
+    }
+
+
+    .pub-title { font-weight: 900; letter-spacing: -0.025em; margin-bottom: 6px; font-size: 1.04rem; }
+    .authors { color: var(--muted); font-size: 0.94rem; margin-bottom: 5px; }
+    .venue { color: var(--primary); font-weight: 900; font-size: 0.92rem; }
+
+    .pub-links { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+    .pub-link { padding: 5px 10px; border-radius: 999px; background: #fff; border: 1px solid var(--line); color: var(--muted); font-weight: 800; font-size: 0.78rem; }
+
+    .me { color: var(--text); font-weight: 900; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; }
+
+    footer { padding: 48px 0 60px; color: var(--muted); text-align: center; font-size: 0.92rem; }
+
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; padding: 34px; }
+      .portrait-wrap, .portrait, .portrait-fallback { width: 180px; height: 180px; border-radius: 38px; }
+      .two-col, .pub { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+      .item-head { flex-direction: column; gap: 8px; }
+      .date { width: fit-content; }
+      .pub-content { padding-left: 0; }
+      .pub-content::before { position: static; margin-bottom: 10px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="container">
+      <a class="brand" href="#top">Jingli Lin</a>
+      <div class="nav-links">
+        <a href="#about">About</a>
+        <a href="#education">Education</a>
+        <a href="#experience">Experience</a>
+        <a href="#publications">Publications</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="top" class="container">
+    <section class="hero hero-panel">
+      <div class="portrait-wrap">
+        <div class="portrait-bg"></div>
+        <img class="portrait" src="assets/profile.jpg" alt="Jingli Lin portrait" onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';" />
+        <div class="portrait-fallback">JL</div>
+      </div>
+
+      <div>
+        <div class="eyebrow">Embodied AI · 3D Vision · Spatial Intelligence</div>
+        <h1>Jingli Lin</h1>
+        <p class="subtitle">
+          Ph.D. student in Artificial Intelligence at <span class="highlight">Shanghai Jiao Tong University</span>.
+          My research focuses on embodied AI, 3D perception, spatial reasoning, and world models.
+        </p>
+        <div class="hero-actions" id="contact">
+          <a class="btn primary" href="mailto:rbler1234@sjtu.edu.cn">Email Me</a>
+          <a class="btn" href="#publications">Publications</a>
+          <a class="btn" href="https://github.com/rbler1234" target="_blank" rel="noopener">GitHub</a>
+          <a class="btn" href="https://scholar.google.com/citations?hl=zh-CN&user=_YcdDNMAAAAJ" target="_blank" rel="noopener">Google Scholar</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="section-title">
+        <h2>About</h2>
+        <span>Research profile</span>
+      </div>
+      <div class="card bio-card">
+        <p>
+          My research interests lie in <strong>Embodied AI</strong>, <strong>3D Vision</strong>, <strong>Spatial Reasoning</strong>, and <strong>World Models</strong>.
+          I study 3D scene understanding and spatial perception, construct and evaluate spatial reasoning benchmarks, and explore the design and training of spatial intelligence foundation models. My goal is to enhance the spatial cognition, reasoning, and decision-making capabilities of multimodal large models in complex 3D environments.
+        </p>
+        <div class="tags">
+          <span class="tag">Embodied AI</span>
+          <span class="tag">3D Perception</span>
+          <span class="tag">Spatial Reasoning</span>
+          <span class="tag">World Models</span>
+          <span class="tag">Multimodal Learning</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="education">
+      <div class="section-title">
+        <h2>Education</h2>
+        <span>Academic background</span>
+      </div>
+      <div class="grid two-col">
+        <div class="card logo-card">
+          <img class="logo" src="assets/sjtu-logo.png" alt="SJTU logo" onerror="this.outerHTML='<div class=&quot;logo-fallback&quot;>SJTU</div>'" />
+          <div>
+            <div class="item-head">
+              <h3>Shanghai Jiao Tong University</h3>
+              <span class="date">Sept. 2025 -- Present</span>
+            </div>
+            <div class="role">Ph.D. in Artificial Intelligence</div>
+          </div>
+        </div>
+        <div class="card logo-card">
+          <img class="logo" src="assets/sjtu-logo.png" alt="SJTU logo" onerror="this.outerHTML='<div class=&quot;logo-fallback&quot;>SJTU</div>'" />
+          <div>
+            <div class="item-head">
+              <h3>Shanghai Jiao Tong University</h3>
+              <span class="date">Sept. 2021 -- June 2025</span>
+            </div>
+            <div class="role">B.E. in Artificial Intelligence, Honor Class</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="experience">
+      <div class="section-title">
+        <h2>Experience</h2>
+        <span>Research experience</span>
+      </div>
+      <div class="grid">
+        <div class="card logo-card">
+          <img class="logo" src="assets/shailab-logo.png" alt="Shanghai AI Laboratory logo" onerror="this.outerHTML='<div class=&quot;logo-fallback&quot;>SAIL</div>'" />
+          <div>
+            <div class="item-head">
+              <h3>InternRobotics, Shanghai AI Laboratory</h3>
+              <span class="date">Nov. 2024 -- Present</span>
+            </div>
+            <div class="role">Research Intern · Advisor: Jiangmiao Pang</div>
+            <ul>
+              <li>Research 3D perception and the construction and evaluation of spatial reasoning benchmarks.</li>
+              <li>Explore the design and training of spatial intelligence foundation models.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="card logo-card">
+          <img class="logo" src="assets/sjtu-logo.png" alt="SJTU logo" onerror="this.outerHTML='<div class=&quot;logo-fallback&quot;>SJTU</div>'" />
+          <div>
+            <div class="item-head">
+              <h3>CILAB, Shanghai Jiao Tong University</h3>
+              <span class="date">July 2022 -- Feb. 2023</span>
+            </div>
+            <div class="role">Research Assistant Intern · Advisor: Assoc. Prof. Guanjie Zheng</div>
+            <ul>
+              <li>Researched urban traffic prediction and algorithmic optimization for urban traffic flow.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="publications">
+      <div class="section-title">
+        <h2>Publications</h2>
+        <span>* Equal contribution</span>
+      </div>
+      <div class="pub-list">
+
+        <article class="pub">
+          <img class="teaser" src="assets/mmsi-video-bench.png" alt="MMSI-Video-Bench teaser" onerror="this.outerHTML='<div class=&quot;teaser-fallback&quot;>MMSI-Video-Bench<br>Teaser</div>'" />
+          <div class="pub-content">
+            <div class="pub-title">MMSI-Video-Bench: A Holistic Benchmark for Video-Based Spatial Intelligence</div>
+            <div class="authors"><span class="me">Jingli Lin*</span>, Runsen Xu*, Shaohao Zhu, Sihan Yang, Peizhou Cao, Yunlong Ran, Miao Hu, Chenming Zhu, Yiman Xie, Yilin Long, Wenbo Hu, Dahua Lin, Tai Wang, Jiangmiao Pang</div>
+            <div class="venue">arXiv:2512.10863</div>
+            <div class="pub-links"><a class="pub-link" href="https://arxiv.org/abs/2512.10863">Paper</a><a class="pub-link" href="https://github.com/InternRobotics/MMSI-Video-Bench">Code</a><a class="pub-link" href="https://rbler1234.github.io/MMSI-VIdeo-Bench.github.io/">Project</a></div>
+          </div>
+        </article>
+        <article class="pub">
+          <img class="teaser" src="assets/ost-bench.png" alt="OST-Bench teaser" onerror="this.outerHTML='<div class=&quot;teaser-fallback&quot;>OST-Bench<br>Teaser</div>'" />
+          <div class="pub-content">
+            <div class="pub-title">OST-Bench: Evaluating the Capabilities of MLLMs in Online Spatio-temporal Scene Understanding</div>
+            <div class="authors"><span class="me">Jingli Lin*</span>, Chenming Zhu*, Runsen Xu, Xiaohan Mao, Xihui Liu, Tai Wang, Jiangmiao Pang</div>
+            <div class="venue">NeurIPS 2025</div>
+            <div class="pub-links"><a class="pub-link" href="https://arxiv.org/pdf/2507.07984">Paper</a><a class="pub-link" href="https://github.com/InternRobotics/OST-Bench">Code</a><a class="pub-link" href="https://rbler1234.github.io/OSTBench.github.io/">Project</a></div>
+          </div>
+        </article>
+
+        <article class="pub">
+          <img class="teaser" src="assets/g2vlm.png" alt="G2VLM teaser" onerror="this.outerHTML='<div class=&quot;teaser-fallback&quot;>G²VLM<br>Teaser</div>'" />
+          <div class="pub-content">
+            <div class="pub-title">G²VLM: Geometry Grounded Vision Language Model with Unified 3D Reconstruction and Spatial Reasoning</div>
+            <div class="authors">Wenbo Hu*, <span class="me">Jingli Lin*</span>, Yilin Long*, Yunlong Ran, Lihan Jiang, Yifan Wang, Chenming Zhu, Runsen Xu, Tai Wang, Jiangmiao Pang</div>
+            <div class="venue">CVPR 2026</div>
+            <div class="pub-links"><a class="pub-link" href="https://arxiv.org/abs/2312.16170">Paper</a><a class="pub-link" href="https://github.com/InternRobotics/G2VLM">Code</a><a class="pub-link" href="https://gordonhu608.github.io/g2vlm.github.io/">Project</a></div>
+          </div>
+        </article>
+
+        <article class="pub">
+          <img class="teaser" src="assets/mmscan.png" alt="MMScan teaser" onerror="this.outerHTML='<div class=&quot;teaser-fallback&quot;>MMScan<br>Teaser</div>'" />
+          <div class="pub-content">
+            <div class="pub-title">MMScan: A Multi-Modal 3D Scene Dataset with Hierarchical Grounded Language Annotations</div>
+            <div class="authors">Ruiyuan Lyu*, <span class="me">Jingli Lin*</span>, Tai Wang*, Shuai Yang*, Xiaohan Mao, Yilun Chen, Runsen Xu, Haifeng Huang, Chenming Zhu, Dahua Lin, Jiangmiao Pang</div>
+            <div class="venue">NeurIPS 2024</div>
+            <div class="pub-links"><a class="pub-link" href="https://github.com/InternRobotics/EmbodiedScan/blob/mmscan/assets/2406.09401v2.pdf">Paper</a><a class="pub-link" href="https://github.com/InternRobotics/EmbodiedScan/tree/mmscan">Code</a>
+          </div>
+        </article>
+
+        <article class="pub">
+          <img class="teaser" src="assets/mmsi-bench.png" alt="MMSI-Bench teaser" onerror="this.outerHTML='<div class=&quot;teaser-fallback&quot;>MMSI-Bench<br>Teaser</div>'" />
+          <div class="pub-content">
+            <div class="pub-title">MMSI-bench: A Benchmark for Multi-image Spatial Intelligence</div>
+            <div class="authors">Sihan Yang, Runsen Xu, Yiman Xie, Sizhe Yang, Mo Li, <span class="me">Jingli Lin</span>, Chenming Zhu, Xiaochen Chen, Haodong Duan, Xiangyu Yue, Dahua Lin, Tai Wang, Jiangmiao Pang</div>
+            <div class="venue">ICLR 2026</div>
+            <div class="pub-links"><a class="pub-link" href="https://arxiv.org/abs/2505.23764">Paper</a><a class="pub-link" href="https://github.com/InternRobotics/MMSI-Bench">Code</a><a class="pub-link" href="https://runsenxu.com/projects/MMSI_Bench/">Project</a></div>
+          </div>
+        </article>
+
+        <article class="pub">
+          <img class="teaser" src="assets/g2tam.png" alt="G2TAM teaser" onerror="this.outerHTML='<div class=&quot;teaser-fallback&quot;>G2TAM<br>Teaser</div>'" />
+          <div class="pub-content">
+            <div class="pub-title">G2TAM: Geometry Grounded Track Anything Model</div>
+            <div class="authors">Chenming Zhu, Peizhou Cao, <span class="me">Jingli Lin</span>, Wenbo Hu, Yunlong Ran, Tai Wang, Jiangmiao Pang, Xihui Liu</div>
+            <div class="venue">ICML 2026</div>
+            <div class="pub-links"><a class="pub-link" href="#">Paper</a><a class="pub-link" href="#">Code</a><a class="pub-link" href="#">Project</a></div>
+          </div>
+        </article>
+
+        <article class="pub">
+          <img class="teaser" src="assets/internscenes.png" alt="InternScenes teaser" onerror="this.outerHTML='<div class=&quot;teaser-fallback&quot;>InternScenes<br>Teaser</div>'" />
+          <div class="pub-content">
+            <div class="pub-title">Internscenes: A Large-scale Simulatable Indoor Scene Dataset with Realistic Layouts</div>
+            <div class="authors">Weipeng Zhong*, Peizhou Cao*, Yichen Jin, Luo Li, Wenzhe Cai, <span class="me">Jingli Lin</span>, Hanqing Wang, Zhaoyang Lyu, Tai Wang, Xudong Xu, Bo Dai, Jiangmiao Pang</div>
+            <div class="venue">NeurIPS 2025</div>
+            <div class="pub-links"><a class="pub-link" href="https://arxiv.org/abs/2509.10813">Paper</a><a class="pub-link" href="https://github.com/InternRobotics/InternScenes">Code</a><a class="pub-link" href="https://marjordcpz.github.io/InternScenes.github.io/">Project</a></div>
+          </div>
+        </article>
+
+        <article class="pub">
+          <img class="teaser" src="assets/auto-pairing.png" alt="Auto-Pairing teaser" onerror="this.outerHTML='<div class=&quot;teaser-fallback&quot;>Auto-Pairing<br>Teaser</div>'" />
+          <div class="pub-content">
+            <div class="pub-title">Auto-Pairing Positives through Implicit Relation Circulation for Discriminative Self-Learning</div>
+            <div class="authors">Bo Pang, Zhenyu Wei, <span class="me">Jingli Lin</span>, Cewu Lu</div>
+            <div class="venue">IEEE TPAMI</div>
+            <div class="pub-links"><a class="pub-link" href="https://ieeexplore.ieee.org/document/10835191">Paper</a><a class="pub-link" href="https://github.com/BoPang1996/IRC">Code</a></div>
+          </div>
+        </article>
+
+        <article class="pub">
+          <img class="teaser" src="assets/traffic-carbon.png" alt="Traffic signal control teaser" onerror="this.outerHTML='<div class=&quot;teaser-fallback&quot;>Traffic Signal<br>Teaser</div>'" />
+          <div class="pub-content">
+            <div class="pub-title">Big-data Empowered Traffic Signal Control Could Reduce Urban Carbon Emission</div>
+            <div class="authors">Kan Wu, Jianrong Ding, <span class="me">Jingli Lin</span>, Guanjie Zheng, Yi Sun, Jie Fang, Tu Xu, Yongdong Zhu, Baojing Gu</div>
+            <div class="venue">Nature Communications, 2025</div>
+            <div class="pub-links"><a class="pub-link" href="https://www.nature.com/articles/s41467-025-56701-4">Paper</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="awards" class="section">
+      <h2>Honors & Awards</h2>
+    
+      <div class="award-card">
+        <div class="award-year">2021–2024</div>
+        <div>
+          <h3>Zhiyuan Scholarship</h3>
+          <p>Shanghai Jiao Tong University</p>
+        </div>
+      </div>
+    
+      <div class="award-card">
+        <div class="award-year">2022</div>
+        <div>
+          <h3>Guozhi Scholarship</h3>
+          <p>Shanghai Jiao Tong University</p>
+        </div>
+      </div>
+    
+      <div class="award-card">
+        <div class="award-year">2023</div>
+        <div>
+          <h3>B-Class Scholarship</h3>
+          <p>Shanghai Jiao Tong University</p>
+        </div>
+      </div>
+
+    
+      <div class="award-card">
+        <div class="award-year">2022</div>
+        <div>
+          <h3>Second Prize (Provincial)</h3>
+          <p>Contemporary Undergraduate Mathematical Contest in Modeling</p>
+        </div>
+      </div>
+    </section>
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="container">© <span id="year"></span> Jingli Lin. Built for GitHub Pages.</div>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
